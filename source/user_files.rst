@@ -376,56 +376,55 @@ Mesh and boundary condition info
 
     The data following the header is formatted as shown in Table :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in Table. :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage. (We are inquiring whether other groups still use it.)
 
-    .. _tab:element:
+      .. _tab:element:
 
-    .. table:: Geometry description in .rea file
+      .. table:: Geometry description in .rea file
+        
+         +-------------------------------------------------------------------------------------+
+         | ``ELEMENT 1 [ 1A] GROUP 0``                                                         |
+         +=====================================================================================+
+         | ``Face {1,2,3,4}``                                                                  |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`x_{1,\ldots,4}=` | 0.000000E+00 | 0.171820E+00 | 0.146403E+00 | 0.000000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`y_{1,\ldots,4}=` | 0.190000E+00 | 0.168202E+00 | 0.343640E+00 | 0.380000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`z_{1,\ldots,4}=` | 0.000000E+00 | 0.000000E+00 | 0.000000E+00 | 0.000000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | ``Face {5,6,7,8}``                                                                  |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`x_{5,\ldots,8}=` | 0.000000E+00 | 0.171820E+00 | 0.146403E+00 | 0.000000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`y_{5,\ldots,8}=` | 0.190000E+00 | 0.168202E+00 | 0.343640E+00 | 0.380000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
+         | :math:`z_{5,\ldots,8}=` | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 |
+         +-------------------------+--------------+--------------+--------------+--------------+
 
-       +-------------------------------------------------------------------------------------+
-       | ``ELEMENT 1 [ 1A] GROUP 0``                                                         |
-       +=====================================================================================+
-       | ``Face {1,2,3,4}``                                                                  |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | :math:`x_{1,\ldots,4}=` | 0.000000E+00 | 0.171820E+00 | 0.146403E+00 | 0.000000E+00 |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | :math:`y_{1,\ldots,4}=` | 0.190000E+00 | 0.168202E+00 | 0.343640E+00 | 0.380000E+00 |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | :math:`z_{1,\ldots,4}=` | 0.000000E+00 | 0.000000E+00 | 0.000000E+00 | 0.000000E+00 |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | ``Face {5,6,7,8}``                                                                  |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | :math:`x_{5,\ldots,8}=` | 0.000000E+00 | 0.171820E+00 | 0.146403E+00 | 0.000000E+00 |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | :math:`y_{5,\ldots,8}=` | 0.190000E+00 | 0.168202E+00 | 0.343640E+00 | 0.380000E+00 |
-       +-------------------------+--------------+--------------+--------------+--------------+
-       | :math:`z_{5,\ldots,8}=` | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 |
-       +-------------------------+--------------+--------------+--------------+--------------+
+    (NECESSARY TEXT FOR SOME REASON?)
 
+      .. _fig:elorder:
 
-(NECESSARY TEXT FOR SOME REASON?)
+      .. figure:: figs/3dcube_1.png
+          :align: center
+          :figclass: align-center
+          :alt: rea-geometry
 
-    .. _fig:elorder:
+          Geometry description in .rea file (sketch of one element ordering - Preprocessor 
+          corner notation) 
 
-    .. figure:: figs/3dcube_1.png
-        :align: center
-        :figclass: align-center
-        :alt: rea-geometry
+    (MORE NECESSARY TEXT FOR SOME REASON?)
 
-        Geometry description in .rea file (sketch of one element ordering - Preprocessor 
-        corner notation) 
+      .. _fig:edges:
 
-(MORE NECESSARY TEXT FOR SOME REASON?)
+      .. figure:: figs/3dcube.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
 
-    .. _fig:edges:
+          Edge numbering in .rea file, the edge number is in between parenthesis. The other
+          numbers represent vertices.
 
-    .. figure:: figs/3dcube.png
-        :align: center
-        :figclass: align-center
-        :alt: edge-numbering
-
-        Edge numbering in .rea file, the edge number is in between parenthesis. The other
-        numbers represent vertices.
-
-(EVEN MORE NECESSARY TEXT FOR SOME REASON?)
+..    (EVEN MORE NECESSARY TEXT FOR SOME REASON?)
 
 **curvature**
     This section describes the curvature of the elements. It is expressed as deformation of the linear elements.
@@ -439,19 +438,88 @@ Mesh and boundary condition info
     Only non-trivial curvature data needs to be provided, i.e., edges that correspond to linear elements, since they have no curvature, will have no entry.
     The formatting for the curvature data is provided in Table. :numref:`tab:midside`.
 
-    .. _tab:midside:
+      .. _tab:midside:
 
-    .. table:: Curvature information specification
+      .. table:: Curvature information specification
 
-       +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
-       | ``IEDGE`` | ``IEL`` | ``CURVE(1)`` | ``CURVE(2)`` | ``CURVE(3)`` | ``CURVE(4)`` | ``CURVE(5)`` | ``CCURVE`` |
-       +===========+=========+==============+==============+==============+==============+==============+============+
-       | 9         | 2       | 0.125713     | -0.992067    | 0.00000      | 0.00000      | 0.00000      | m          |
-       +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
-       | 10        | 38      | 0.125713     | -0.992067    | 3.00000      | 0.00000      | 0.00000      | m          |
-       +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
-       | 1         | 40      | 1.00000      | 0.000000     | 0.00000      | 0.00000      | 0.00000      | C          |
-       +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+         | ``IEDGE`` | ``IEL`` | ``CURVE(1)`` | ``CURVE(2)`` | ``CURVE(3)`` | ``CURVE(4)`` | ``CURVE(5)`` | ``CCURVE`` |
+         +===========+=========+==============+==============+==============+==============+==============+============+
+         | 9         | 2       | 0.125713     | -0.992067    | 0.00000      | 0.00000      | 0.00000      | m          |
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+         | 10        | 38      | 0.125713     | -0.992067    | 3.00000      | 0.00000      | 0.00000      | m          |
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+         | 1         | 40      | 1.00000      | 0.000000     | 0.00000      | 0.00000      | 0.00000      | C          |
+         +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+
+    There are several types of possible curvature information represented by ``CCURVE``. This include:
+
+    - 'C' stands for circle and is given by the radius of the circle,  in ``CURVE(1)``, all other compoentns of the ``CURVE`` array are not used but need to be present.
+    - 's' stands for sphere and is given by the radius and the center of the sphere, thus filling the first 4 components of the ``CURVE`` array. The fifth component needs to be present but is not utilized.
+    - 'm' is given by the coordinates of the midside-node, thus using the first 3 components of the ``CURVE`` array, and leads to a second order reconstruction of the face.  The fourth and fifth components need to be present but are not utilized.
+
+    Both 'C' and 's' types allow for a surface of as high order as the polynomial used in the spectral method, since they have an underlying analytical description, any circle arc can be fully determined by the radius and end points. However for the 'm' curved element descriptor the surface can be reconstructed only up to second order. This can be later updated to match the high-order polynomial after the GLL points have been distributed across the boundaries. This is the only general mean to describe curvature currrently in Nek5000 and corresponds to a HEX20 representation.
+
+    For better understanding let us focus on what the data in Table. :numref:`tab:midside` signifies. Edge 9 of element 2 has a edge  midpoint at (0.125713, -0.992067, 0.00000)  and so on. For edge numbering the reader is advised to check Fig. :numref:`fig:edges`, which illustrates the relationship between vertex numbering and edge numbering.
+
+    To maninpulate the geometry in Nek5000 at runtime, it is possible to use  usrdat2. In this subroutine the user can deform the geometry to match the intended surface, followed by a call to the subroutine 'fixgeom' which can realign the point distribution in the interior of the element.
+
+    We also note, that, unlike the geometry data, each curvature entry (as shown in Table. :numref:`tab:midside`) is formatted and the format is **dependent on the total number of elements**. Three cases exist as shown in the code below:
+
+      .. code-block:: none
+
+                       if (nelgt.lt.1000) then
+                          write(10,'(i3,i3,5g14.6,1x,a1)') i,eg,
+       $                  (vcurve(k,i,kb),k=1,5),cc
+                       elseif (nelgt.lt.1000000) then
+                          write(10,'(i2,i6,5g14.6,1x,a1)') i,eg,
+       $                  (vcurve(k,i,kb),k=1,5),cc
+                       else
+                          write(10,'(i2,i12,5g14.6,1x,a1)') i,eg,
+       $                  (vcurve(k,i,kb),k=1,5),cc
+
+    The fortran format is as follows:
+
+    - For a total number of elements below 1,000 the format is ``(i3,i3,5g14.6,1x,a1)``.
+    - For a total number of elements 1,000 - 999,999 the format is ``(i2,i6,5g14.6,1x,a1)``.
+    - For a total number of elements above 999,999 the format is ``(i2,i12,5g14.6,1x,a1)``.
+
+      .. _fig:ex1:
+
+      .. figure:: figs/base1.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Example mesh - without curvature. Square dots represent example vertices.
+
+    (EVEN MORE NECESSARY TEXT FOR SOME REASON?)
+
+      .. _fig:ex2:
+
+      .. figure:: figs/modified1.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Example mesh - with curvature. Circular dots represent example midsize points.
+
+    To further illustrate the usage of curvature data, let us examine an example of .rea file with and wiuthout curvature information and the corresponding mesh representation. :numref:`fig:ex1` represents a 12 element box mesh (2x2x3, with periodic conditions in z) without curvature, while :numref:`fig:ex2` presents the same mesh with a sinusoidal deformation in direction y. Only two edges per element are curved.
+
+    The input for the mesh without curvature is:
+
+    .. include:: mesh_example.txt
+        :literal:
+
+    The input for the mesh with curvature is:
+
+    .. include:: mesh_curv_example.txt
+        :literal:
+
+    Note that element and boundary condition information are identical between the two cases.
+
+**boundary conditions**
+    Boundary conditions (BCs) are specified for each field in sequence: velocity, temperature and passive scalars. The section header for each field will be as follows (example for the velocity):
 
 -----------
 Data Layout
