@@ -1,0 +1,16 @@
+sudo: required
+
+install:
+  - sudo port install py27-sphinx
+
+script:
+  - make clean
+  - make html > logfile
+  - sed 's/[^0-9]*//g' logfile | tee log2
+  - sed '/^\s*$/d' log2 | tee log3
+  - NUMBER=$(tail -1 log3)
+  - if (( $NUMBER > 1 )); then
+       exit 1 #EXIT ON ERROR
+    else
+       exit 0 #EXIT ON SUCCESS
+    fi
