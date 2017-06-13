@@ -400,6 +400,7 @@ Mesh and boundary condition info
        | :math:`z_{5,\ldots,8}=` | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 | 0.250000E+00 |
        +-------------------------+--------------+--------------+--------------+--------------+
 
+
 (NECESSARY TEXT FOR SOME REASON?)
 
     .. _fig:elorder:
@@ -411,6 +412,46 @@ Mesh and boundary condition info
 
         Geometry description in .rea file (sketch of one element ordering - Preprocessor 
         corner notation) 
+
+(MORE NECESSARY TEXT FOR SOME REASON?)
+
+    .. _fig:edges::
+
+    .. figure:: figs/3dcube.png
+        :align: center
+        :figclass: align-center
+        :alt: edge-numbering
+
+        Edge numbering in .rea file, the edge number is in between parenthesis. The other
+        numbers represent vertices.
+
+(EVEN MORE NECESSARY TEXT FOR SOME REASON?)
+
+**curvature**
+    This section describes the curvature of the elements. It is expressed as deformation of the linear elements.
+    Therefore, if no elements are curved (if only linear elements are present) the section remains empty.
+
+    The section header may look like this::
+
+      640 Curved sides follow IEDGE,IEL,CURVE(I),I=1,5, CCURVE
+
+    Curvature information is provided by edge and element. Therefore up to 12 curvature entries can be present for each element.
+    Only non-trivial curvature data needs to be provided, i.e., edges that correspond to linear elements, since they have no curvature, will have no entry.
+    The formatting for the curvature data is provided in Table. :numref:`tab:midside`.
+
+    .. _tab:midside:
+
+    .. table:: Curvature information specification
+
+       +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+       | ``IEDGE`` | ``IEL`` | ``CURVE(1)`` | ``CURVE(2)`` | ``CURVE(3)`` | ``CURVE(4)`` | ``CURVE(5)`` | ``CCURVE`` |
+       +===========+=========+==============+==============+==============+==============+==============+============+
+       | 9         | 2       | 0.125713     | -0.992067    | 0.00000      | 0.00000      | 0.00000      | m          |
+       +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+       | 10        | 38      | 0.125713     | -0.992067    | 3.00000      | 0.00000      | 0.00000      | m          |
+       +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
+       | 1         | 40      | 1.00000      | 0.000000     | 0.00000      | 0.00000      | 0.00000      | C          |
+       +-----------+---------+--------------+--------------+--------------+--------------+--------------+------------+
 
 -----------
 Data Layout
