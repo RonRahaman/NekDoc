@@ -415,7 +415,7 @@ Mesh and boundary condition info
 
 (MORE NECESSARY TEXT FOR SOME REASON?)
 
-    .. _fig:edges::
+    .. _fig:edges:
 
     .. figure:: figs/3dcube.png
         :align: center
