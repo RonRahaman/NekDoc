@@ -519,7 +519,93 @@ Mesh and boundary condition info
     Note that element and boundary condition information are identical between the two cases.
 
 **boundary conditions**
-    Boundary conditions (BCs) are specified for each field in sequence: velocity, temperature and passive scalars. The section header for each field will be as follows (example for the velocity):
+    Boundary conditions (BCs) are specified for each field in sequence: velocity, temperature and passive scalars. The section header for each field will be as follows (example for the velocity)::
+
+      ***** FLUID   BOUNDARY CONDITIONS *****
+
+    and the data is stored as illustarted in :numref:`tab:bcs`. For each field boundary conditions are listed for each face of each element.
+
+    Boundary conditions are given in order per each element, see :numref:`tab:bcs` column ``IEL``, and faces listed in ascending order 1-6 in column ``IFACE``. Note that the header in :numref:`tab:bcs` does not appear in the actual ``.rea``.
+
+    The ordering for faces each element is shown in :numref:`fig:forder`. A total equivalent to :math:`6N_{field}` boundary conditions are listed for each field, where :math:`N_{field}` is the number of elements for the specific field. :math:`N_{field}` is equal to the total number of fluid elements for the velocity and equal to the total number of elements (including solid elements) for temperature. For the passive scalars it will depend on the specific choice, but typically scalars are solved on the temeprature mesh (solid+fluid).
+
+      .. _fig:forder:
+
+      .. figure:: figs/3dcube_2.png
+          :align: center
+          :figclass: align-center
+          :alt: edge-numbering
+
+          Face ordering for each element.
+
+    Each BC letter condition is formed by three characters. Common BCs include:
+
+    - ``E`` - internal boundary condition. No additional information needs to be provided.
+    - ``SYM`` - symmetry boundary condition. No additional information needs to be provided.
+    - ``P`` - periodic boundary conditions,  which indicates that an element face is connected to another element to establish a periodic BC. The connecting element and face need be  to specified in ``CONN-IEL`` and ``CONN-IFACE``.
+    - ``v`` - imposed velocity boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the .rea file.
+    - ``W`` - wall boundary condition (no-slip) for the velocity. No additional information needs to be provided.
+    - ``O`` - outlet boundary condition (velocity). No additional information needs to be provided.
+    - ``t`` - imposed temperature  boundary conditions (inlet). The value is specified in the user subroutines. No additional information needs to be provided in the .rea file.
+    - ``f`` - imposed heat flux  boundary conditions (temperature). The value is specified in the user subroutines. No additional information needs to be provided in the .rea file.
+    - ``I`` - adiabatic boundary conditions (temeperature). No additional information needs to be provided.
+
+    Many of the BCs support either a constant specification or a user defined specification which may be an arbitrary function.   For example, a constant Dirichlet BC for velocity is specified by ``V``, while a user defined BC is specified by ``v``.   This upper/lower-case distinction is  used for all cases.   There are about 70 different types of boundary conditions in all, including free-surface, moving boundary, heat flux, convective cooling, etc. The above cases are just the most used types.
+
+      .. _tab:bcs:
+
+      .. table:: Formatting of boundary conditions input.
+
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | ``CBC`` | ``IEL`` | ``IFACE`` | ``CONN-IEL`` | ``CONN-IFACE`` |         |         |         |
+         +=========+=========+===========+==============+================+=========+=========+=========+
+         | E       | 1       | 1         | 4.00000      | 3.00000        | 0.00000 | 0.00000 | 0.00000 |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | ``..``  | ``..``  | ``..``    | ``..``       | ``..``         | ``..``  | ``..``  | ``..``  |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | W       | 5       | 3         | 0.00000      | 0.00000        | 0.00000 | 0.00000 | 0.00000 |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | ``..``  | ``..``  | ``..``    | ``..``       | ``..``         | ``..``  | ``..``  | ``..``  |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+         | P       | 23      | 5         | 149.000      | 6.00000        | 0.00000 | 0.00000 | 0.00000 |
+         +---------+---------+-----------+--------------+----------------+---------+---------+---------+
+
+    As in the case of the curvature entries, the boundary conditions entries are formatted and **the format is dependent on the total number of elements**.
+    The code below shows an example of writing statement for boundary conditions:
+
+      .. code-block:: none
+
+                        if (nlg.lt.1000) then
+                           write(10,'(a1,a3,2i3,5g14.6)')
+           $               chtemp,s3,eg,i,(vbc(ii,i,kb),ii=1,5)
+                        elseif (nlg.lt.100000) then
+                           write(10,'(a1,a3,i5,i1,5g14.6)')
+           $               chtemp,s3,eg,i,(vbc(ii,i,kb),ii=1,5)
+                        elseif (nlg.lt.1000000) then
+                           write(10,'(a1,a3,i6,5g14.6)')
+           $               chtemp,s3,eg,(vbc(ii,i,kb),ii=1,5)
+                        else
+                           write(10,'(a1,a3,i12,5g18.11)')
+           $               chtemp,s3,eg,(vbc(ii,i,kb),ii=1,5)
+                        endif
+
+    The fortran format is as follows:
+
+    - For a total number of elements below 1,000 the format is ``(a1,a3,2i3,5g14.6)``.
+    - For a total number of elements 1,000 - 99,999 the format is ``(a1,a3,i5,i1,5g14.6)``.
+    - For a total number of elements 100,000 - 999,999 the format is ``(a1,a3,i6,5g14.6)``.
+    - For a total number of elements above 999,999 the format is ``(a1,a3,i12,5g18.11)``.
+
+    We note that:
+
+    - The first item in the format for each of the four cases is a string containing a space.
+    - The second item in the format for each of the four cases is a string specifying the boundary condition type.
+    - In cases where the total number of elements is bigger than 99,999, the ``IFACE`` item is omitted. Given that Nek5000 already knows the ordering of the actual faces within each element in column ``IFACE`` is in fact not needed.
+    - The number of significant digits increases in the fourth case. This is needed for periodic boundary conditions.
+
+...........
+Output info
+...........
 
 -----------
 Data Layout
