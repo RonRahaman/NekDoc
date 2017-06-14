@@ -735,9 +735,11 @@ Some fundamentals of Nek5000's internal data layout are given below.
 
    .. |br| raw:: html
 
-   ``i=1,...,nx1   (nx1 = lx1)`` |br|
-   ``j=1,...,ny1   (ny1 = lx1)``
-   ``k=1,...,nz1   (nz1 = lx1`` or 1, according to ndim=3 or 2)
+      <br />
+
+   ``i=1,...,nx1``   (``nx1 = lx1``) |br|
+   ``j=1,...,ny1``   (``ny1 = lx1``) |br|
+   ``k=1,...,nz1``   (``nz1 = lx1`` or 1, according to ndim=3 or 2)
 
    ``e=1,...,nelv``, where ``nelv`` :math:`\leq` ``lelv``, and ``lelv`` is the upper
    bound on number of elements, *per processor*.
