@@ -28,6 +28,8 @@ SESSION.NAME file is a file that contains the name of the simulation and the ful
 supporting files. For example, to run the eddy example from the repository, the SESSION.NAME file
 would look like:
 
+.. code-block:: none
+
   eddy_uv
   /home/user_name/Nek5000/short_tests/eddy/ 
 
@@ -234,7 +236,9 @@ alternatively the variable properties can be set in the USERVP routine.
 
 To run NEK5000, each simulation must have a SESSION.NAME file. This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation. The SESSION.NAME file is a file that contains the name of the simulation and the full path to supporting files. For example, to run the eddy example from the repository, the SESSION.NAME file would look like::
 
-  eddy_uv\\
+.. code-block:: none
+
+  eddy_uv
   /homes/user\_ name/nek5\_ svn/examples/eddy/
 
 
@@ -258,8 +262,6 @@ The total size of the problem is ``lx1*ly1*lz1*lelt``.
 ...................
 Memory Requirements
 ...................
-
-.. highlight:: bash
 
 Per-processor memory requirements for  Nek5000 scale
 roughly as 400 8-byte words per allocated gridpoint.  The number
@@ -348,6 +350,8 @@ Next we have the logical switches as follow, a detailed explanation to be found 
 Mesh and boundary condition info
 ................................
 
+.. highlight:: none
+
 **geometry**
     The geometry is specified in an arcane format specifying
     the :math:`xyz` locations of each of the eight points for each element,
@@ -374,7 +378,7 @@ Mesh and boundary condition info
     first, followed by all solid elements if present. In this case there are (34) 
     solid elements.
 
-    The data following the header is formatted as shown in Table :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in Table. :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage. (We are inquiring whether other groups still use it.)
+    The data following the header is formatted as shown in :numref:`tab:element`. This provides all the coordinates of an element for top and bottom faces. The numbering of the vertices is shown in Fig. :numref:`fig:elorder`. The header for each element as in :numref:`tab:element`, i.e. ``[1A] GROUP`` is reminiscent of older Nek5000 format and does not impact the mesh generation at this stage. (We are inquiring whether other groups still use it.)
 
       .. _tab:element:
 
@@ -436,7 +440,7 @@ Mesh and boundary condition info
 
     Curvature information is provided by edge and element. Therefore up to 12 curvature entries can be present for each element.
     Only non-trivial curvature data needs to be provided, i.e., edges that correspond to linear elements, since they have no curvature, will have no entry.
-    The formatting for the curvature data is provided in Table. :numref:`tab:midside`.
+    The formatting for the curvature data is provided in :numref:`tab:midside`.
 
       .. _tab:midside:
 
@@ -460,13 +464,13 @@ Mesh and boundary condition info
 
     Both 'C' and 's' types allow for a surface of as high order as the polynomial used in the spectral method, since they have an underlying analytical description, any circle arc can be fully determined by the radius and end points. However for the 'm' curved element descriptor the surface can be reconstructed only up to second order. This can be later updated to match the high-order polynomial after the GLL points have been distributed across the boundaries. This is the only general mean to describe curvature currrently in Nek5000 and corresponds to a HEX20 representation.
 
-    For better understanding let us focus on what the data in Table. :numref:`tab:midside` signifies. Edge 9 of element 2 has a edge  midpoint at (0.125713, -0.992067, 0.00000)  and so on. For edge numbering the reader is advised to check Fig. :numref:`fig:edges`, which illustrates the relationship between vertex numbering and edge numbering.
+    For better understanding let us focus on what the data in :numref:`tab:midside` signifies. Edge 9 of element 2 has a edge  midpoint at (0.125713, -0.992067, 0.00000)  and so on. For edge numbering the reader is advised to check Fig. :numref:`fig:edges`, which illustrates the relationship between vertex numbering and edge numbering.
 
     To maninpulate the geometry in Nek5000 at runtime, it is possible to use  usrdat2. In this subroutine the user can deform the geometry to match the intended surface, followed by a call to the subroutine 'fixgeom' which can realign the point distribution in the interior of the element.
 
-    We also note, that, unlike the geometry data, each curvature entry (as shown in Table. :numref:`tab:midside`) is formatted and the format is **dependent on the total number of elements**. Three cases exist as shown in the code below:
+    We also note, that, unlike the geometry data, each curvature entry (as shown in :numref:`tab:midside`) is formatted and the format is **dependent on the total number of elements**. Three cases exist as shown in the code below:
 
-      .. code-block:: none
+      .. code-block:: fortranfixed
 
                        if (nelgt.lt.1000) then
                           write(10,'(i3,i3,5g14.6,1x,a1)') i,eg,
@@ -573,7 +577,7 @@ Mesh and boundary condition info
     As in the case of the curvature entries, the boundary conditions entries are formatted and **the format is dependent on the total number of elements**.
     The code below shows an example of writing statement for boundary conditions:
 
-      .. code-block:: none
+      .. code-block:: fortranfixed
 
                         if (nlg.lt.1000) then
                            write(10,'(a1,a3,2i3,5g14.6)')
