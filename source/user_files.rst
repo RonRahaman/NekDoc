@@ -110,8 +110,8 @@ three units.
   do iel=1,nelt  !  Force flux BCs
   do f=1,2*ndim
      if (cbc(f,iel,1).eq.'W  ') cbc(f,iel,2) = 'f  ' ! flux BC for temperature
-  enddo
-  enddo
+  end do
+  end do
 
   return
   end
@@ -234,7 +234,7 @@ alternatively the variable properties can be set in the USERVP routine.
 
 **What is a SESSION file?**
 
-To run NEK5000, each simulation must have a SESSION.NAME file. This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation. The SESSION.NAME file is a file that contains the name of the simulation and the full path to supporting files. For example, to run the eddy example from the repository, the SESSION.NAME file would look like::
+To run NEK5000, each simulation must have a SESSION.NAME file. This file is read in by the code and gives the path to the relevant files describing the structure and parameters of the simulation. The SESSION.NAME file is a file that contains the name of the simulation and the full path to supporting files. For example, to run the eddy example from the repository, the SESSION.NAME file would look like
 
 .. code-block:: none
 
@@ -475,7 +475,7 @@ Mesh and boundary condition info
                        if (nelgt.lt.1000) then
                           write(10,'(i3,i3,5g14.6,1x,a1)') i,eg,
        $                  (vcurve(k,i,kb),k=1,5),cc
-                       elseif (nelgt.lt.1000000) then
+                       else if (nelgt.lt.1000000) then
                           write(10,'(i2,i6,5g14.6,1x,a1)') i,eg,
        $                  (vcurve(k,i,kb),k=1,5),cc
                        else
@@ -582,16 +582,16 @@ Mesh and boundary condition info
                         if (nlg.lt.1000) then
                            write(10,'(a1,a3,2i3,5g14.6)')
            $               chtemp,s3,eg,i,(vbc(ii,i,kb),ii=1,5)
-                        elseif (nlg.lt.100000) then
+                        else if (nlg.lt.100000) then
                            write(10,'(a1,a3,i5,i1,5g14.6)')
            $               chtemp,s3,eg,i,(vbc(ii,i,kb),ii=1,5)
-                        elseif (nlg.lt.1000000) then
+                        else if (nlg.lt.1000000) then
                            write(10,'(a1,a3,i6,5g14.6)')
            $               chtemp,s3,eg,(vbc(ii,i,kb),ii=1,5)
                         else
                            write(10,'(a1,a3,i12,5g18.11)')
            $               chtemp,s3,eg,(vbc(ii,i,kb),ii=1,5)
-                        endif
+                        end if
 
     The fortran format is as follows:
 
@@ -753,7 +753,7 @@ Some fundamentals of Nek5000's internal data layout are given below.
 
          do i=1,nx1*ny1*nz1*nelv
             u(i,1,1,1) = vx(i,1,1,1)
-         enddo
+         end do
 
    which is equivalent but superior (WHY?) to:
 
@@ -764,10 +764,10 @@ Some fundamentals of Nek5000's internal data layout are given below.
          do j=1,ny1
          do i=1,nx1
             u(i,j,k,e) = vx(i,j,k,e)
-         enddo
-         enddo
-         enddo
-         enddo
+         end do
+         end do
+         end do
+         end do
 
    which is equivalent but vastly superior (WHY?) to:
 
@@ -778,10 +778,10 @@ Some fundamentals of Nek5000's internal data layout are given below.
          do k=1,nz1
          do e=1,nelv
             u(i,j,k,e) = vx(i,j,k,e)
-         enddo
-         enddo
-         enddo
-         enddo
+         end do
+         end do
+         end do
+         end do
 5. All data arrays are stored according to the SPMD programming
    model, in which address spaces that are local to each processor
    are private --- not accessible to other processors except through
@@ -791,7 +791,7 @@ Some fundamentals of Nek5000's internal data layout are given below.
 
          do i=1,nx1*ny1*nz1*nelv
             u(i,1,1,1) = vx(i,1,1,1)
-         enddo
+         end do
 
    means different things on different processors and ``nelv`` may
    differ from one processor to the next.
