@@ -184,7 +184,7 @@ In nek5000, you would specify this through usrdat2 as follows
    do i=1,ntot
       argx         = 2*pi*xm1(i,1,1,1)/lambda
       ym1(i,1,1,1) = ym1(i,1,1,1) + ym1(i,1,1,1)*A*sin(argx)
-   enddo
+   end do
 
    param(59) = 1.  ! Force nek5 to recognize element deformation.
 
