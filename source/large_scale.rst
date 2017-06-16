@@ -31,7 +31,7 @@ For large scale simulations the AMG solver is a better, faster choice for solvin
 AMG solver
 ..........
 
-The code should be compiled once with the settings ``AMG=true``, ``AMG\_ DUMP=true``. In the tools folder of Nek5000 we can find the AMG solver, a Matlab version for the moment which is subject to further integration in the main code. The user should run the script run which will read the AMG dump files and create new ones. The new files are now to be used in the code and with ``AMG\_ DUMP`` commented out the user should recompile and run his Nek5000 version.
+The code should be compiled once with the settings ``AMG=true``, ``AMG_DUMP=true``. In the tools folder of Nek5000 we can find the AMG solver, a Matlab version for the moment which is subject to further integration in the main code. The user should run the script run which will read the AMG dump files and create new ones. The new files are now to be used in the code and with ``AMG_DUMP`` commented out the user should recompile and run his Nek5000 version.
 
 The AMG solver is a 3 stage process.
 
@@ -39,7 +39,7 @@ The first step will generate the files needed for the matlab code. Next matlab m
 
 AMG dump stage
 
-    Make sure ``IFAMG`` and ``IFAMG\_ DUMP`` in makenek are uncommented and set to true
+    Make sure ``IFAMG`` and ``IFAMG_DUMP`` in makenek are uncommented and set to true
 
     Run ``makenek clean`` then ``makenek <casename>``
 
@@ -47,13 +47,13 @@ AMG dump stage
 
 MATLAB AMG stage
 
-    Move the ``amgdmp\_ *.dat`` files to ``nek5\_ svn/trunk/tools/amg\_ matlab``:
+    Move the ``amgdmp_*.dat`` files to ``nek5_svn/trunk/tools/amg_matlab``:
 
-    ``mv amgdmp*.dat ../../trunk/tools/amg\_ matlab``
+    ``mv amgdmp*.dat ../../trunk/tools/amg_matlab``
 
-    ``cd ../../trunk/tools/amg\_ matlab``
+    ``cd ../../trunk/tools/amg_matlab``
 
-    Run the script: ``tools/amg\_ matlab/run`` (this may take several hours and will produce set of files)
+    Run the script: ``tools/amg_matlab/run`` (this may take several hours and will produce set of files)
 
 AMG run stage
 
@@ -61,7 +61,7 @@ AMG run stage
 
     ``mv *.dat /path/to/case/dir``
 
-    Comment ``IFAMG\_ DUMP`` in ``makenek`` (``IFAMG`` should still be set to ``TRUE``)
+    Comment ``IFAMG_DUMP`` in ``makenek`` (``IFAMG`` should still be set to ``TRUE``)
 
     Run ``makenek clean``, then run ``makenek <casename>``
 
@@ -71,7 +71,7 @@ Notes on improving AMG results:
 
     To help speed up the matlab process, try running the 1st stage, the AMG dump stage, with ``lx1=3`` in the SIZE file. Using a lower lx1 number will create a sparser matrix and thus a speedier matlab resolution. lx1 can be increased when ready to run the 2nd stage, the AMG run stage, after the .dat files are produced.
 
-    To increase accuracy in the AMG results, try tightening the tolerances in the run script, in ``trunk/tools/amg\_ matlab``. Specifically, the first tolerance (default set to 0.5). Lowering this (say, to 0.1), will increase the time the matlab code stage takes, but the result will be a faster convergence in the pressure solves of the AMG run stage.
+    To increase accuracy in the AMG results, try tightening the tolerances in the run script, in ``trunk/tools/amg_matlab``. Specifically, the first tolerance (default set to 0.5). Lowering this (say, to 0.1), will increase the time the matlab code stage takes, but the result will be a faster convergence in the pressure solves of the AMG run stage.
 
 ...................
 Size related issues
@@ -94,41 +94,41 @@ Available configurations options:
 
 .. table:: Compiler options
 
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | name               | values     | default       | description                                                                                |
-   +====================+============+===============+============================================================================================+
-   | PPLIST             | string     |               | list of pre-processor symbols (BG,MOAB,BLAS\_ MXM, MPIIO)                                  |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | IFMPI              | true,false | true          | use MPI (needed for a multiprocessor computation)                                          |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | IFAMG\_ DUMP       | true,false | false         | dump AMG pre-processing files                                                              |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | IFAMG              | true,false | false         | use AMG as coarse grid solver for pressure preconditioner else XXT                         |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | F77                | string     | mandatory     | Fortran compiler (e.g. MPI: mpif77)                                                        |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | CC                 | string     | mandatory     | C compiler (e.g. MPI: mpicc)                                                               |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | G                  | string     | optional      | optional compilation flags                                                                 |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | OPT\_ FLAGS\_ STD7 | string     | optional      | optimization flags for L1,L2,L3                                                            |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | OPT\_ FLAGS\_ MAG  | string     | optional      | optimization flags for L4 (highest opt level)                                              |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | SOURCE\_ ROOT      | string     | mandatory     | path of nek5000 source                                                                     |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | USR                | string     | optional      | object list of additional files to compile (make intructions (makefile\_ usr.inc required) |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | USR\_ LFLAGS       | string     | optional      | optional linking flags                                                                     |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | MOAB\_ DIR         | string     | NEK with MOAB | Path to MOAB directories                                                                   |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | IFVISIT            | true,false | false         | Toggles Visit in situ. See Visit\_ in\_ situ for details                                   |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | VISIT\_ INSTALL    | string     | VISIT in situ | Path to VISIT install path. See Visit\_ in\_ situ for details.                             |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
-   | VISIT\_ STOP       | true,false | false         | When running VISIT in situ, simulation stops after step 1 to connect VISIT.                |
-   +--------------------+------------+---------------+--------------------------------------------------------------------------------------------+
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | name           | values     | default       | description                                                                              |
+   +================+============+===============+==========================================================================================+
+   | PPLIST         | string     |               | list of pre-processor symbols (BG,MOAB,BLAS_MXM, MPIIO)                                  |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | IFMPI          | true,false | true          | use MPI (needed for a multiprocessor computation)                                        |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | IFAMG_DUMP     | true,false | false         | dump AMG pre-processing files                                                            |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | IFAMG          | true,false | false         | use AMG as coarse grid solver for pressure preconditioner else XXT                       |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | F77            | string     | mandatory     | Fortran compiler (e.g. MPI: mpif77)                                                      |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | CC             | string     | mandatory     | C compiler (e.g. MPI: mpicc)                                                             |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | G              | string     | optional      | optional compilation flags                                                               |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | OPT_FLAGS_STD7 | string     | optional      | optimization flags for L1,L2,L3                                                          |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | OPT_FLAGS_MAG  | string     | optional      | optimization flags for L4 (highest opt level)                                            |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | SOURCE_ROOT    | string     | mandatory     | path of nek5000 source                                                                   |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | USR            | string     | optional      | object list of additional files to compile (make intructions (makefile_usr.inc required) |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | USR_LFLAGS     | string     | optional      | optional linking flags                                                                   |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | MOAB_DIR       | string     | NEK with MOAB | Path to MOAB directories                                                                 |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | IFVISIT        | true,false | false         | Toggles Visit in situ. See Visit_in_situ for details                                     |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | VISIT_INSTALL  | string     | VISIT in situ | Path to VISIT install path. See Visit_in_situ for details.                               |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
+   | VISIT_STOP     | true,false | false         | When running VISIT in situ, simulation stops after step 1 to connect VISIT.              |
+   +----------------+------------+---------------+------------------------------------------------------------------------------------------+
 
 ...............
 Binary geometry
