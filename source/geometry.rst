@@ -882,9 +882,11 @@ A successful genmap run will produce a .map file with the proper processor decom
 
 NOTE: For large element counts, it is not uncommon for genmap to be produce a few disconnected sets.
 These sets are typically under 7 elements large and  will not affect optimization of the NEK5000 run.
-If a disconnected set is produced, genmap will output the following warning to stdout::
+If a disconnected set is produced, genmap will output the following warning to stdout:
 
- not connected   N0   NEL  Nsets   Nlarge sets
+.. code-block:: none
+
+   not connected   N0   NEL  Nsets   Nlarge sets
 
 Here, ``N0`` is the number of elements disconnected from the set of ``NEL`` elements, ``Nsets`` is the counter of disconnected sets found,
 and ``Nlarge sets`` is the number of sets greater than 64 elements in size.  ``Nlarge sets`` should always be 0.  If not, please contact someone on the developer team so we can be sure to have a more optimal partition of your mesh.
