@@ -168,13 +168,7 @@ The parallelism of Nek5000 is accomplished via domain decomposition methods and 
 
 For the most part, the global element numbering is not relevant since Nek5000 assigns it randomly but following certain rules.
 
-.. raw:: html
-
-    <style> .red {color:red} </style>
-
-.. role:: red
-
-There are two types of array sizes, starting with :red:`l` x1, :red:`l` elv, etc. which give an upper bound of the arrays. And :red:`n` x1, :red:`n` elv, etc. which give the actual number of elements/grid points per processors. For the example in :numref:`fig:procsplit` we have
+There are two types of array sizes, starting with lx1, lelv, etc. which give an upper bound of the arrays. And nx1, nelv, etc. which give the actual number of elements/grid points per processors. For the example in :numref:`fig:procsplit` we have
 
 - on proc 0, ``nelt=2``  (nelt = no elements in temperature domain)
 - on proc 1, ``nelt=3``  (nelv = no elements in fluid domain, usually = nelt)
