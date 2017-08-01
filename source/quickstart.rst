@@ -305,9 +305,13 @@ postx, or VisIt as before.
 .. \subsection{Modifying the First Example}
 .. 
 
-___________________________
+---------------------------
 Modifying the First Example
-___________________________
+---------------------------
+
+_______________________
+Using the ``.par`` file
+_______________________
 
 .. highlight:: bash
 
@@ -336,18 +340,8 @@ to::
        parameter (lx1=12)                ! p-order (avoid uneven and values <6)
        parameter (lxd=18)               ! p-order for over-integration (dealiasing)
 
-Or, if using the lgeacy ``SIZE`` file, change::
-
-       parameter (lx1=8,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
-       parameter (lxd=12,lyd=lxd,lzd=1)
-
-to::
-
-       parameter (lx1=12,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
-       parameter (lxd=18,lyd=lxd,lzd=1)
-
 Then recompile the source by typing::
-  
+
   makenek eddy_new
 
 Next, edit ``eddy_new.par`` and add the following line in the ``GENERAL``
@@ -355,19 +349,6 @@ Next, edit ``eddy_new.par`` and add the following line in the ``GENERAL``
 .. code-block:: none
 
      startFrom = eddy_uv.fld12
-
-Or, if using the legacy ``.rea`` format, edit ``eddy_new.rea`` and change the line
-
-.. code-block:: none
- 
-             0 PRESOLVE/RESTART OPTIONS  *****
-
-(found roughly 33 lines from the bottom of the file) to
-
-.. code-block:: none
-
-             1 PRESOLVE/RESTART OPTIONS  *****
-  eddy_uv.fld12
 
 which tells Nek5000 to use the contents of ``eddy_uv.fld12``
 as the initial condition for ``eddy_new``.
@@ -387,13 +368,53 @@ problem, which is really designed as a convergence study.  The purpose here, how
 to illustrate a change of order and its impact on the error, and to
 demonstrate the frequently-used restart procedure. However for a higher order timestepping scheme an accurate restart would require a number of field files of the same size (+1) as the order of the multistep scheme
 
+
+_______________________
+Using the ``.rea`` file
+_______________________
+
+.. highlight:: bash
+
+Modifying the legacy ``.rea`` and ``SIZE`` file formats is done in a similar way to above. In the lgeacy ``SIZE`` file, change::
+
+       parameter (lx1=8,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
+       parameter (lxd=12,lyd=lxd,lzd=1)
+
+to::
+
+       parameter (lx1=12,ly1=lx1,lz1=1,lelt=300,lelv=lelt)
+       parameter (lxd=18,lyd=lxd,lzd=1)
+
+Then recompile the source by typing::
+  
+  makenek eddy_new
+
+
+Next, edit the legacy ``.rea`` format, edit ``eddy_new.rea`` and change the line
+
+.. code-block:: none
+ 
+             0 PRESOLVE/RESTART OPTIONS  *****
+
+(found roughly 33 lines from the bottom of the file) to
+
+.. code-block:: none
+
+             1 PRESOLVE/RESTART OPTIONS  *****
+  eddy_uv.fld12
+
+which tells Nek5000 to use the contents of ``eddy_uv.fld12``
+as the initial condition for ``eddy_new``.
+
+The simulation can now be run in a similar way to the above ``.par`` section.
+
 _________________
 The ``.par`` File
 _________________
 
 In the future of Nek5000, the ``.rea`` file format will be replaced by the new ``.par`` file format. This is because the new format is simpler to read (as can be seen in the *eddy* problem). Here, we introduce the basics of the ``.par`` file as used in this example case.
 
-In the ``short_tests/eddy_par`` directory, there is a file labeled ``eddy_uv.par``, which is broken into four sections: ``GENERAL``, ``PROBLEMTPYE``, ``PRESSURE``, and ``VELOCITY``. Each of these sections contains necessary and optional parameters for Nek5000 to run that the user inputs, similar to the legacy ``.rea`` format. Analogs to each of the parameters can be found in ``eddy_uv.rea``, along with descriptions.
+In the ``short_tests/eddy_par`` directory, there is a file labeled ``eddy_uv.par``, which is broken into four sections: ``GENERAL``, ``PROBLEMTPYE``, ``PRESSURE``, and ``VELOCITY``. Each of these sections contains necessary and optional parameters for Nek5000 to run that the user inputs, similar to the legacy ``.rea`` format. Analogs to each of the parameters can be found in ``eddy_uv.rea``, along with descriptions. As well, detailed analog information can be found in the ``core/readat_new.f`` file (where each numbered parameter is matched with its new name in the ``.par`` file).
 
 .. code-block:: none
 
